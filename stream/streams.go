@@ -289,12 +289,22 @@ func (s *Stream[T]) TakeWhile(predicate func(elem T) bool) *Stream[T] {
 }
 
 //Map returns a stream transformed with the provided function.
-func (s *Stream[T]) Map(transform func(elem T) any) *Stream[any] {
-	var result []any
+//Limited to transforming to the same type.
+func (s *Stream[T]) Map(transform func(elem T) T) *Stream[T] {
+	var result []T
 	for _, elem := range s.elements {
 		result = append(result, transform(elem))
 	}
-	return Of[any](result)
+	s.elements = result
+	return s
+}
+
+func Map[T any, O any](arr []T, transform func(elem T) O) []O {
+	var result []O
+	for _, elem := range arr {
+		result = append(result, transform(elem))
+	}
+	return result
 }
 
 func (s *Stream[T]) Values() []T {

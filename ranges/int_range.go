@@ -22,7 +22,7 @@ var bigOne = big.NewInt(1)
 func NewBigIntRange(start, end *big.Int) *BigIntRange {
 	result := make([]*big.Int, end.Sub(end, start).Int64())
 	for i := new(big.Int).Set(start); i.Cmp(end) < 0; i.Add(i, bigOne) {
-		result[new(big.Int).Sub(i, start).Int64()] = i
+		result[new(big.Int).Sub(i, start).Int64()] = new(big.Int).Set(i)
 	}
 	return &BigIntRange{start, end, result}
 }

@@ -300,6 +300,11 @@ func (s *Stream[T]) Map(transform func(elem T) T) *Stream[T] {
 }
 
 func Map[T any, O any](arr []T, transform func(elem T) O) []O {
+	//If array is nil, return nil
+	if arr == nil {
+		return nil
+	}
+
 	var result []O
 	for _, elem := range arr {
 		result = append(result, transform(elem))
